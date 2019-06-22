@@ -9,7 +9,18 @@ from task import B, F, L, R, C, X
 #   worker = gs.start()
 #   # do stuff with the worker object, which can produce other worker objects
 #   # can do queries against gs to examine game state
-#   gs.save_to_file(filename)
+#   gs.to_string()
+#
+# OR
+#
+#   gs = State(task)
+#   gs.start()
+#   while True:
+#       ws = gs.workers
+#       for w in ws:
+#           # do a single action with w
+#   gs.to_string()
+#
 
 #
 # What happens if the various workers fall out of sync?
@@ -222,3 +233,8 @@ class State:
     def to_string(self):
         self.workers.sort(key = lambda w : w.worker_id)
         return '#'.join((''.join(w.cmds)) for w in self.workers)
+
+    def to_file(self, filename):
+        s = self.to_string()
+        with open(filename, 'w') as f:
+            f.write(s)
