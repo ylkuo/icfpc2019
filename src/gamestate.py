@@ -244,8 +244,8 @@ class State:
 # The internal arrays used by Pathfinder have a margin of 1 on all four sides.
 # In particular, internal indices are off by 1.
 #
-dxys_array = np.array([[0, 1], [1, 0], [0, -1], [-1, 0]], dtype = int)
-dxys = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+#dxys_array = np.array([[0, 1], [1, 0], [0, -1], [-1, 0]], dtype = int)
+dxys = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 class Pathfinder:
     def __init__(self, gs):
         self.gs = gs
@@ -257,8 +257,8 @@ class Pathfinder:
         self.interior[1 : -1, 1 : -1] = gs.interior
 
         self.visited = np.zeros((X, Y), dtype = bool)
-        self.dx = np.zeros((X, Y), dtype = bool)
-        self.dy = np.zeros((X, Y), dtype = bool)
+        self.dx = np.zeros((X, Y), dtype = int)
+        self.dy = np.zeros((X, Y), dtype = int)
         self.dist = np.zeros((X, Y), dtype = int)
 
     # When completed, locations reachable from (x, y) will have
