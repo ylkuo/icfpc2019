@@ -54,7 +54,7 @@ def parse_boosters(s):
     boosters = []
     if len(s) > 0:
         for x in s.split(';'):
-            boosters.append((str2booster(x[0]), parse_point(x[1:])))
+            boosters.append((str2booster[x[0]], parse_point(x[1:])))
     return boosters
 
 task_parsers = [parse_map, parse_starting_point, parse_obstacles, parse_boosters]

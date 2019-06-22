@@ -1,6 +1,7 @@
 import numpy as np
 
 import compute_interior
+import task
 
 from task import B, F, L, R, C, X
 
@@ -175,7 +176,7 @@ class State:
     # after restarting or you will corrupt the state
     def start(self):
         self.boosters = {}
-        for bt in self.task.bts:
+        for bt in task.bts:
             self.boosters[bt] = []
 
         self.workers = []
