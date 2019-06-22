@@ -34,6 +34,14 @@ str2booster = {
             'C' : C,
             'X' : X
         }
+booster2str = {
+            B : 'B',
+            F : 'F',
+            L : 'L',
+            R : 'R',
+            C : 'C',
+            X : 'X'
+        }
 
 ########
 
@@ -59,14 +67,29 @@ def parse_boosters(s):
 
 task_parsers = [parse_map, parse_starting_point, parse_obstacles, parse_boosters]
 
-#########
+########
+
+def print_point(xy):
+    x, y = xy
+    return '({},{})'.format(x, y)
+
+def print_point_list(xys):
+    return ','.join([print_point(xy) for xy in xys])
+
+def print_boosters(all_boosters):
+    b = []
+    for bt, xy in all_boosters:
+        b.append(booster2str[bt] + print_point(xy))
+    return ';'.join(b)
+
+########
 
 class Task:
-    def __init__(self, map, start, obstacles, boosters):
+    def __init__(self, map, start, obstacles, all_boosters):
         self.map = map
         self.start = start
         self.obstacles = obstacles
-        self.all_boosters = boosters
+        self.all_boosters = all_boosters
 
         self.bt2pos = {
                 }
@@ -113,6 +136,14 @@ class Task:
 
         out = 'Task {}: X ({}, {}), Y ({}, {}), {} obstacles, {} boosters'
         return out.format(filename, self.xmin, self.xmax, self.ymin, self.ymax, len(self.obstacles), len(self.boosters))
+
+    def to_string(self):
+        if self.task_string is None:
+            parts = [print_point_list(self.map), print_point(self.start),
+                    ';'.join([print_point_list(obstacle) for obstacle in self.obstacles]),
+                    print_boosters(self.all_boosters)]
+            self.task_string = '#'.join(parts)
+        return self.task_string
 
 def tasks_in_directory(path):
     assert os.path.isdir(path)

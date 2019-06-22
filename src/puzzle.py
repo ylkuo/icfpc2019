@@ -1,3 +1,4 @@
+import sys
 import numpy as np
 
 import task
@@ -7,7 +8,7 @@ class Puzzle:
     def __init__(self, s):
         a, b, c = s.strip().split('#')
         self.points_in = task.parse_point_list(b)
-        self.points_out = task.parse_point_list(b)
+        self.points_out = task.parse_point_list(c)
         xs = [int(x) for x in a.split(',')]
         self.block, self.epoch, self.size, self.vmin, self.vmax = xs[:5]
 
@@ -19,7 +20,7 @@ class Puzzle:
 # Given an array of bool that is True for the interior of a rectilinear region,
 # return the appropriate list of points describing its boundary.
 # Assume interior_extra has been given a border of False on all four sides.
-def read_map(self, interior_extra):
+def read_map(interior_extra):
     i = interior_extra
     X, Y = np.shape(i)
 
@@ -69,7 +70,9 @@ def solve_puzzle(puzzle):
         todo.append((x + 1, y + 1))
 
     forbidden = np.zeros((M2, M2), dtype = bool)
+    ff_start = (M2 // 2, M2 // 2)
     for x, y in puzzle.points_in:
+        ff_start = (x + 1, y + 1)
         forbidden[x + 1, y + 1] = True
 
     dxys = [(0, 1), (1, 0), (0, -1), (-1, 0)]
@@ -84,6 +87,8 @@ def solve_puzzle(puzzle):
         active = list(todo)
         done = []
 
+        count = 0
+
         for x, y in active:
             visited[x, y] = True
 
@@ -92,7 +97,7 @@ def solve_puzzle(puzzle):
             for x, y in active:
                 if not i[x, y]:
                     done.append((x, y))
-                    continue
+                    break
                 if forbidden[x, y]:
                     continue
 
@@ -114,13 +119,30 @@ def solve_puzzle(puzzle):
                 x += dx_
                 y += dy_
                 i[x, y] = False
-            todo.remove(x, y)
+            todo.remove((x, y))
 
     # Add any necessary complexity
 
+
     path = None
     while True:
+        # Do floodfill from ff_start
+        visited = np.zeros((M2, M2), dtype = bool)
+        x0, y0 = ff_start
+        visited[x0, y0] = True
+        active = [(x0, y0)]
+        while len(active) > 0:
+            x, y = active.pop()
+            for dx_, dy_ in dxys:
+                x_ = x + dx_
+                y_ = y + dy_
+                if i[x_, y_] and (not visited[x_, y_]):
+                    active.append((x_, y_))
+                    visited[x_, y_] = True
+        i = visited
+
         path = read_map(i)
+        # print(len(path), puzzle.vmin, puzzle.vmax)
         assert len(path) <= puzzle.vmax
 
         if len(path) >= puzzle.vmin:
@@ -136,3 +158,22 @@ def solve_puzzle(puzzle):
 
         assert progress
 
+    for x, y in puzzle.points_in:
+        assert i[x + 1, y + 1]
+
+    xys = np.transpose(np.nonzero(i)) - 1
+    start = xys[0]
+    idx = 1
+    all_boosters = []
+    for bt in task.bts:
+        for j in range(puzzle.boosters[bt]):
+            all_boosters.append((bt, xys[idx]))
+            idx += 1
+
+    return task.Task(path, start, [], all_boosters)
+
+if __name__ == "__main__":
+    with open('../tasks/example_puzzle/puzzle.cond', 'r') as f:
+        puzzle = Puzzle(f.read())
+        task = solve_puzzle(puzzle)
+        print(task.to_string())
