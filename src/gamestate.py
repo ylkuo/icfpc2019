@@ -268,6 +268,8 @@ class Pathfinder:
     # All inaccessible locations will have
     #   visited = False
     def compute_distance(self, x0, y0):
+        x0 += 1
+        y0 += 1
         self.dist[x0, y0] = 0
         self.visited.fill(False)
         self.visited[x0, y0] = True
@@ -292,6 +294,8 @@ class Pathfinder:
     # dist, dx, and dy will be valid along the shortest path from (x0, y0) to (x, y)
     # Return None if no accessible True element of goal
     def nearest_in_array(self, x0, y0, goal):
+        x0 += 1
+        y0 += 1
         self.dist[x0, y0] = 0
         self.visited.fill(False)
         self.visited[x0, y0] = True
@@ -300,8 +304,8 @@ class Pathfinder:
         while len(active) > 0:
             next_active = []
             for x, y in active:
-                if goal[x, y]:
-                    return (x, y)
+                if goal[x - 1, y - 1]:
+                    return (x - 1, y - 1)
                 for dx, dy in dxys:
                     x_ = x + dx
                     y_ = y + dy
@@ -315,6 +319,8 @@ class Pathfinder:
 
     # Same as nearest_in_array, but the goal points are given as a set or list
     def nearest_in_set(self, x0, y0, goal):
+        x0 += 1
+        y0 += 1
         self.dist[x0, y0] = 0
         self.visited.fill(False)
         self.visited[x0, y0] = True
@@ -323,8 +329,8 @@ class Pathfinder:
         while len(active) > 0:
             next_active = []
             for x, y in active:
-                if (x, y) in goal:
-                    return (x, y)
+                if (x - 1, y - 1) in goal:
+                    return (x - 1, y - 1)
                 for dx, dy in dxys:
                     x_ = x + dx
                     y_ = y + dy
@@ -344,8 +350,8 @@ class Pathfinder:
         path = [(x, y)]
 
         while not ((x == x0) and (y == y0)):
-            x_ = x + self.dx[x, y]
-            y_ = y + self.dy[x, y]
+            x_ = x + self.dx[x + 1, y + 1]
+            y_ = y + self.dy[x + 1, y + 1]
             x = x_
             y = y_
             path.append((x, y))
