@@ -18,6 +18,23 @@ def parse_point_list(s):
 
     return points
 
+B = object()        # attachment
+F = object()        # speed
+L = object()        # drill
+R = object()        # teleport
+C = object()        # clone
+X = object()        # spawn
+bts = [B, F, L, R, C, X]
+
+str2booster = {
+            'B' : B,
+            'F' : F,
+            'L' : L,
+            'R' : R,
+            'C' : C,
+            'X' : X
+        }
+
 ########
 
 def parse_map(s):
@@ -37,7 +54,7 @@ def parse_boosters(s):
     boosters = []
     if len(s) > 0:
         for x in s.split(';'):
-            boosters.append((x[0], parse_point(x[1:])))
+            boosters.append((str2booster(x[0]), parse_point(x[1:])))
     return boosters
 
 task_parsers = [parse_map, parse_starting_point, parse_obstacles, parse_boosters]
@@ -49,7 +66,15 @@ class Task:
         self.map = map
         self.start = start
         self.obstacles = obstacles
-        self.boosters = boosters
+        self.all_boosters = boosters
+
+        self.bt2pos = {
+                }
+        for bt in bts:
+            self.bt2pos[bt] = []
+
+        for bt, pos in self.all_boosters:
+            self.bt2pos[bt].append(pos)
 
         self.map_xs = [x for (x, y) in self.map]
         self.map_ys = [y for (x, y) in self.map]
@@ -102,18 +127,5 @@ def tasks_in_directory(path):
 
 examples = '../tasks/example/'
 part1 = '../tasks/part1/'
-
-if __name__ == "__main__":
-    import compute_interior
-    c = compute_interior.interior
-
-    tasks = tasks_in_directory(examples)
-    for t in tasks:
-        print(t.summary())
-        print(c(t.map, t.xmax, t.ymax))
-        print(c(t.obstacles[0], t.xmax, t.ymax))
-        print(c(t.obstacles[1], t.xmax, t.ymax))
-
-    # tasks = tasks_in_directory(part1)
-    # for t in tasks:
-        # print(t.summary())
+part2 = '../tasks/part2/'
+part3 = '../tasks/part3/'

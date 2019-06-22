@@ -1,3 +1,4 @@
+import os.path
 import numpy as np
 
 import task
@@ -8,6 +9,10 @@ def print_tasks_in_directory(path):
     for t in tasks:
         gs = gamestate.State(t)
         i = gs.interior
+
+        print(t.summary())
+        if os.path.basename(t.filename) < 'prob-280':
+            continue
 
         rows = []
         for y in range(gs.Y):
@@ -25,4 +30,6 @@ def print_tasks_in_directory(path):
 
 if __name__ == "__main__":
     print_tasks_in_directory(task.part1)
+    print_tasks_in_directory(task.part2)
+    print_tasks_in_directory(task.part3)
     # tasks = tasks_in_directory(part1)
