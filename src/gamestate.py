@@ -121,7 +121,7 @@ class Worker:
         y = self.y + dy
         assert x >= 0 and x < self.gs.X and y >= 0 and y < self.gs.Y
         if self.time >= self.drill_expires:
-            assert self.interior[x, y]
+            assert self.gs.interior[x, y]
         self.x = x
         self.y = y
 
