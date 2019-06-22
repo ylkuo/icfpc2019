@@ -239,3 +239,115 @@ class State:
         s = self.to_string()
         with open(filename, 'w') as f:
             f.write(s)
+
+#
+# The internal arrays used by Pathfinder have a margin of 1 on all four sides.
+# In particular, internal indices are off by 1.
+#
+dxys_array = np.array([[0, 1], [1, 0], [0, -1], [-1, 0]], dtype = int)
+dxys = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+class Pathfinder:
+    def __init__(self, gs):
+        self.gs = gs
+
+        X = gs.X + 2
+        Y = gs.Y + 2
+
+        self.interior = np.zeros((X, Y), dtype = bool)
+        self.interior[1 : -1, 1 : -1] = gs.interior
+
+        self.visited = np.zeros((X, Y), dtype = bool)
+        self.dx = np.zeros((X, Y), dtype = bool)
+        self.dy = np.zeros((X, Y), dtype = bool)
+        self.dist = np.zeros((X, Y), dtype = int)
+
+    # When completed, locations reachable from (x, y) will have
+    #   visited = True
+    #   dist = distance from (x, y)
+    #   dx, dy = the step to take to go on the shortest path to (x, y) from a given point
+    # All inaccessible locations will have
+    #   visited = False
+    def compute_distance(self, x0, y0):
+        self.dist[x0, y0] = 0
+        self.visited.fill(False)
+        self.visited[x0, y0] = True
+
+        active = [(x0, y0)]
+        while len(active) > 0:
+            next_active = []
+            for x, y in active:
+                for dx, dy in dxys:
+                    x_ = x + dx
+                    y_ = y + dy
+                    if (not self.visited[x_, y_]) and self.interior[x_, y_]:
+                        next_active.append((x_, y_))
+                        self.visited[x_, y_] = True
+                        self.dist[x_, y_] = self.dist[x, y] + 1
+                        self.dx[x_, y_] = -dx
+                        self.dy[x_, y_] = -dy
+            active = next_active
+
+    # Given a bool array, return (x, y) where goal[x, y] = True and (x, y) is the
+    # closest such
+    # dist, dx, and dy will be valid along the shortest path from (x0, y0) to (x, y)
+    # Return None if no accessible True element of goal
+    def nearest_in_array(self, x0, y0, goal):
+        self.dist[x0, y0] = 0
+        self.visited.fill(False)
+        self.visited[x0, y0] = True
+
+        active = [(x0, y0)]
+        while len(active) > 0:
+            next_active = []
+            for x, y in active:
+                if goal[x, y]:
+                    return (x, y)
+                for dx, dy in dxys:
+                    x_ = x + dx
+                    y_ = y + dy
+                    if (not self.visited[x_, y_]) and self.interior[x_, y_]:
+                        next_active.append((x_, y_))
+                        self.visited[x_, y_] = True
+                        self.dist[x_, y_] = self.dist[x, y] + 1
+                        self.dx[x_, y_] = -dx
+                        self.dy[x_, y_] = -dy
+            active = next_active
+
+    # Same as nearest_in_array, but the goal points are given as a set or list
+    def nearest_in_set(self, x0, y0, goal):
+        self.dist[x0, y0] = 0
+        self.visited.fill(False)
+        self.visited[x0, y0] = True
+
+        active = [(x0, y0)]
+        while len(active) > 0:
+            next_active = []
+            for x, y in active:
+                if (x, y) in goal:
+                    return (x, y)
+                for dx, dy in dxys:
+                    x_ = x + dx
+                    y_ = y + dy
+                    if (not self.visited[x_, y_]) and self.interior[x_, y_]:
+                        next_active.append((x_, y_))
+                        self.visited[x_, y_] = True
+                        self.dist[x_, y_] = self.dist[x, y] + 1
+                        self.dx[x_, y_] = -dx
+                        self.dy[x_, y_] = -dy
+            active = next_active
+
+    # After already performing a search starting from (x0, y0) that found the
+    # point (x1, y1), this makes a shortest path from one to the other
+    def compute_path(self, x0, y0, x1, y1):
+        x = x1
+        y = y1
+        path = [(x, y)]
+
+        while not ((x == x0) and (y == y0)):
+            x_ = x + self.dx[x, y]
+            y_ = y + self.dy[x, y]
+            x = x_
+            y = y_
+            path.append((x, y))
+
+        return list(reversed(path))
