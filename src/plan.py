@@ -1,9 +1,9 @@
 import itertools
+import heapq
 import numpy as np
 
 import task
 import gamestate
-import plan
 
 from collections import defaultdict
 
@@ -26,19 +26,25 @@ def bfs(gs, start, goal):
             else:
                 queue.append((next, path + [next]))
 
+def shortest_path(gs, start, goal):
+    path = list(next(bfs(gs, start, goal)))
+    assert len(path) > 0
+    return path
+
 # nearest neighbor algorithm to solve traveling salesman
-def nn(worker):
+# n_cand to set number of nearest neighbors candidates (based on Manhattan distance).
+def nn(worker, n_cand=5):
     while True:
         if np.all(np.logical_not(worker.gs.unpainted)):
             return
         # find nearest neighbor and go there
         pos = (worker.x, worker.y)
         unvisited = np.dstack(np.where(worker.gs.unpainted == True))[0]
-        approx_nearest = tuple(min(unvisited, key=lambda y: sum(np.abs(y-pos))))
-        paths = itertools.islice(bfs(worker.gs, pos, approx_nearest), 1)
+        approx_nearest = heapq.nsmallest(n_cand, unvisited, key=lambda y: sum(np.abs(y-pos)))
+        paths = [shortest_path(worker.gs, pos, tuple(n)) for n in approx_nearest]
         path = min(paths, key=lambda p: len(p))
         assert len(path) > 0
-        for n in path:
+        for n in path[1:]:
             dx = n[0] - worker.x; dy = n[1] - worker.y
             worker.move(dx, dy)
 
@@ -50,5 +56,5 @@ if __name__ == "__main__":
     tasks = task.tasks_in_directory(task.part1)
     gs = gamestate.State(tasks[0])
     gs.start()
-    plan.nn(gs.workers[0])
+    nn(gs.workers[0])
     print(gs.to_string())
