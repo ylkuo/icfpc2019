@@ -357,3 +357,43 @@ class Pathfinder:
             path.append((x, y))
 
         return list(reversed(path))
+
+class RegionManager:
+    def __init__(self, gs):
+        self.gs = gs
+        self.X = gs.X; self.Y = gs.Y
+
+        self.regions = np.zeros((self.X, self.Y), dtype=int)
+    
+    def compute_regions(self):
+        new_rid = 1
+        for x in range(self.X):
+            for y in range(self.Y):
+                if not self.gs.interior[x,y]:
+                    continue
+                rid = new_rid
+                for dx, dy in [(-1, 0), (0, -1)]:
+                    x_ = x + dx
+                    y_ = y + dy
+                    if x_ >= 0 and x_ < self.X and y_ >= 0 and y_ < self.Y and \
+                        self.gs.interior[x_, y_]:
+                        rid = self.regions[x_, y_]
+                        break
+                if rid == new_rid:
+                    new_rid += 1
+                self.regions[x, y] = rid
+
+    def get_region(self, rid):
+        return np.logical_and(self.regions == rid, self.gs.unpainted)
+
+    def to_string(self):
+        rows = []
+        for y in range(self.Y):
+            row = []
+            for x in range(self.X):
+                if self.regions[x,y] == 0:
+                    row.append('##')
+                else:
+                    row.append(str(self.regions[x,y]).zfill(2))
+            rows.append(''.join(row))
+        return '\n'.join(rows)
