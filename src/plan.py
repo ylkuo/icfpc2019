@@ -1,12 +1,7 @@
 import numpy as np
 
-import sys
-np.set_printoptions(threshold=sys.maxsize)
-
 import task
 import gamestate
-
-from collections import defaultdict
 
 
 # nearest neighbor algorithm to solve traveling salesman
