@@ -102,7 +102,7 @@ def work_on_current_block(task_solver = solvers.nn_solver, puzzle_solver = puzzl
 
 def work_periodically(period = 5 * 60):
     while True:
-        work_on_current_block(task_solver = solvers.name2solver['mod3'])
+        work_on_current_block(task_solver = solvers.name2solver['best'])
         time.sleep(period)
 
 if __name__ == "__main__":

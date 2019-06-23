@@ -7,6 +7,8 @@ import numpy as np
 # where the points on the interior are marked True
 # (interior is left)
 def interior(points, X, Y):
+    points = list(points)
+
     delta = np.zeros((X + 1, Y), dtype = int)
     N = len(points)
     assert N >= 4

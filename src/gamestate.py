@@ -46,7 +46,6 @@ dxdy2str = {
 class Worker:
     def __init__(self, gs, position, time, parent):
         self.gs = gs
-        self.gs.workers.append(self)
         self.x, self.y = position
         self.time = time
         self.cmds = []
@@ -56,9 +55,12 @@ class Worker:
             self.worker_id = [time]
         else:
             self.worker_id = [time] + parent.worker_id
+        self.gs.add_worker(self)
 
         self.speed_expires = -1
         self.drill_expires = -1
+
+        self.pf = Pathfinder(self.gs)
 
         self.direction = 1
         self.arms = [
@@ -70,14 +72,34 @@ class Worker:
 
         self.paint()
 
-    def do(self, cmd):
-        if self.gs.has_boosters[self.x, self.y]:
-            self.gs.collect_boosters(self.x, self.y, self.time)
+        self.cmd2fun = {
+                    'B' : None,
+                    'F' : self.speed,
+                    'L' : self.drill,
+                    'R' : None,
+                    'T' : None,
+                    'C' : self.clone,
+                    'W' : self.move_up,
+                    'D' : self.move_right,
+                    'S' : self.move_down,
+                    'A' : self.move_left,
+                    'Z' : self.wait,
+                    'Q' : self.rotate_Q,
+                    'E' : self.rotate_E
+                }
 
+    # Given a string, call the appropriate function to execute that command
+    def act(self, cmd):
+        self.cmd2fun[cmd]()
+
+    def do(self, cmd):
         self.cmds.append(cmd)
         self.time += 1
 
     def paint(self):
+        if self.gs.has_boosters[self.x, self.y]:
+            self.gs.collect_boosters(self.x, self.y, self.time + 1)
+
         for dx, dy in self.arms[self.direction]:
             x_ = self.x + dx
             y_ = self.y + dy
@@ -87,7 +109,7 @@ class Worker:
     def is_booster_available(self, bt):
         return self.gs.is_booster_available(bt, self.time)
 
-    def use_booster(eslf, bt):
+    def use_booster(self, bt):
         self.gs.use_booster(bt, self.time)
 
     def attach(self, dx, dy):
@@ -150,6 +172,9 @@ class Worker:
     def move_down(self):
         self.move(0, -1)
 
+    def wait(self):
+        self.move(0, 0)
+
     # clockwise (to the right)
     def rotate_E(self):
         self.direction = (self.direction + 1) % 4
@@ -162,15 +187,38 @@ class Worker:
         self.paint()
         self.do('Q')
 
+    def compute_distance(self):
+        self.pf.compute_distance(self.x, self.y)
+
+    def nearest_in_array(self, goal):
+        return self.pf.nearest_in_array(self.x, self.y, goal)
+
+    def nearest_in_set(self, goal):
+        return self.pf.nearest_in_set(self.x, self.y, goal)
+
+    def compute_path(self, x, y):
+        return self.pf.compute_path(self.x, self.y, x, y)
+
+    def walk_path_to(self, x, y):
+        path = self.pf.compute_path(self.x, self.y, x, y)
+        for x_, y_ in path[1:]:
+            self.move(x_ - self.x, y_ - self.y)
+
+    def walk_path_to_max(self, x, y, maxsteps):
+        path = self.pf.compute_path(self.x, self.y, x, y)
+        for x_, y_ in path[1:maxsteps + 1]:
+            self.move(x_ - self.x, y_ - self.y)
+        return (self.x == x) and (self.y == y)
+
 class State:
-    def __init__(self, task):
-        self.task = task
-        self.X = task.xmax
-        self.Y = task.ymax
+    def __init__(self, t):
+        self.task = t
+        self.X = t.xmax
+        self.Y = t.ymax
 
-        self.spawn_list = task.bt2pos[X]
+        self.spawn_list = list(t.bt2pos[X])
 
-        self.interior = compute_interior.interior_with_obstacles(task.map, task.obstacles, self.X, self.Y)
+        self.interior = compute_interior.interior_with_obstacles(t.map, t.obstacles, self.X, self.Y)
         self.unpainted = np.copy(self.interior)
 
         # for a booster type bt, boosters[bt] is a list of the times that available boosters of that type were collected
@@ -228,6 +276,17 @@ class State:
     def amount_unpainted(self):
         return np.sum(self.unpainted)
 
+    def add_worker(self, w):
+        self.workers.append(w)
+        self.workers.sort(key = lambda w : w.worker_id)
+
+    # Return the worker that is currently at the oldest time
+    def oldest_worker(self):
+        time = min([w.time for w in self.workers])
+        for w in self.workers:
+            if w.time == time:
+                return w
+
     def time(self):
         return max([w.time for w in self.workers])
 
@@ -239,6 +298,31 @@ class State:
         s = self.to_string()
         with open(filename, 'w') as f:
             f.write(s)
+
+    # Restarts the simulation from the beginning with proper interleaving of the workers in sync
+    # Truncates simulation as soon as everything has been painted
+    # Validates that everything is painted at the end
+    def replay_and_validate(self):
+        self.workers.sort(key = lambda w : w.worker_id)
+
+        idx = [0] * len(self.workers)
+
+        gs = State(self.task)
+        gs.start()
+
+        while True:
+            flag = False
+            ws = gs.workers
+            for i, w in enumerate(ws):
+                if idx[i] < len(self.workers[i].cmds):
+                    flag = True
+                    w.act(self.workers[i].cmds[idx[i]])
+                    idx[i] += 1
+
+            if not np.any(gs.unpainted):
+                return gs
+
+            assert flag
 
 #
 # The internal arrays used by Pathfinder have a margin of 1 on all four sides.
