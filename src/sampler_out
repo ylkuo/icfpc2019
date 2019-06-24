@@ -1,0 +1,480 @@
+prob-001.desc
+        NN                   15
+        mod3                 14
+    **  mod3 tie             9
+        mod3 bias 1          14
+    **  mod3 bias 2          9
+    **  mod3 bias 3          9
+    **  mod3 bias 4          9
+    **  mod3 bias 5          9
+    **  mod3 bias 6          9
+    **  mod3 bias 7          9
+    **  mod3 bias 8          9
+    **  mod3 bias 9          9
+    **  mod3 bias 10         9
+    **  mod3 bias 11         9
+    **  mod3 bias 12         9
+    **  mod3 bias 13         9
+    **  mod3 bias 14         9
+    **  mod3 bias 15         9
+    **  mod3 bias 16         9
+    **  mod3 bias 17         9
+    **  mod3 bias 18         9
+    **  mod3 bias 19         9
+    **  mod3 bias 20         9
+prob-016.desc
+        NN                   538
+        mod3                 458
+        mod3 tie             442
+        mod3 bias 1          458
+        mod3 bias 2          438
+        mod3 bias 3          433
+        mod3 bias 4          417
+        mod3 bias 5          417
+        mod3 bias 6          417
+    **  mod3 bias 7          401
+    **  mod3 bias 8          401
+    **  mod3 bias 9          401
+    **  mod3 bias 10         401
+    **  mod3 bias 11         401
+    **  mod3 bias 12         401
+    **  mod3 bias 13         401
+    **  mod3 bias 14         401
+    **  mod3 bias 15         401
+    **  mod3 bias 16         401
+    **  mod3 bias 17         401
+    **  mod3 bias 18         401
+    **  mod3 bias 19         401
+    **  mod3 bias 20         401
+prob-031.desc
+        NN                   1513
+        mod3                 1464
+        mod3 tie             1445
+        mod3 bias 1          1464
+        mod3 bias 2          1397
+        mod3 bias 3          1322
+        mod3 bias 4          1320
+        mod3 bias 5          1316
+    **  mod3 bias 6          1310
+    **  mod3 bias 7          1310
+    **  mod3 bias 8          1310
+    **  mod3 bias 9          1310
+    **  mod3 bias 10         1310
+    **  mod3 bias 11         1310
+    **  mod3 bias 12         1310
+    **  mod3 bias 13         1310
+    **  mod3 bias 14         1310
+    **  mod3 bias 15         1310
+    **  mod3 bias 16         1310
+    **  mod3 bias 17         1310
+    **  mod3 bias 18         1310
+    **  mod3 bias 19         1310
+    **  mod3 bias 20         1310
+prob-046.desc
+        NN                   1080
+        mod3                 1146
+        mod3 tie             1055
+        mod3 bias 1          1146
+        mod3 bias 2          1008
+        mod3 bias 3          943
+    **  mod3 bias 4          922
+        mod3 bias 5          930
+        mod3 bias 6          930
+        mod3 bias 7          930
+        mod3 bias 8          930
+        mod3 bias 9          930
+        mod3 bias 10         930
+        mod3 bias 11         930
+        mod3 bias 12         930
+        mod3 bias 13         930
+        mod3 bias 14         930
+        mod3 bias 15         930
+        mod3 bias 16         930
+        mod3 bias 17         953
+        mod3 bias 18         953
+        mod3 bias 19         953
+        mod3 bias 20         953
+prob-061.desc
+        NN                   3382
+        mod3                 3049
+        mod3 tie             3032
+        mod3 bias 1          3049
+        mod3 bias 2          2897
+        mod3 bias 3          2816
+        mod3 bias 4          2794
+        mod3 bias 5          2808
+        mod3 bias 6          2832
+        mod3 bias 7          2824
+    **  mod3 bias 8          2780
+    **  mod3 bias 9          2780
+    **  mod3 bias 10         2780
+    **  mod3 bias 11         2780
+    **  mod3 bias 12         2780
+    **  mod3 bias 13         2780
+    **  mod3 bias 14         2780
+    **  mod3 bias 15         2780
+    **  mod3 bias 16         2780
+    **  mod3 bias 17         2780
+    **  mod3 bias 18         2780
+    **  mod3 bias 19         2780
+    **  mod3 bias 20         2780
+prob-076.desc
+        NN                   3908
+        mod3                 3893
+        mod3 tie             3944
+        mod3 bias 1          3893
+        mod3 bias 2          3650
+        mod3 bias 3          3468
+        mod3 bias 4          3510
+        mod3 bias 5          3432
+        mod3 bias 6          3357
+    **  mod3 bias 7          3344
+        mod3 bias 8          3390
+        mod3 bias 9          3388
+        mod3 bias 10         3384
+        mod3 bias 11         3404
+        mod3 bias 12         3404
+        mod3 bias 13         3404
+        mod3 bias 14         3404
+        mod3 bias 15         3404
+        mod3 bias 16         3404
+        mod3 bias 17         3400
+        mod3 bias 18         3400
+        mod3 bias 19         3400
+        mod3 bias 20         3400
+prob-091.desc
+        NN                   4147
+        mod3                 4317
+        mod3 tie             4203
+        mod3 bias 1          4317
+        mod3 bias 2          3829
+        mod3 bias 3          3693
+        mod3 bias 4          3575
+        mod3 bias 5          3510
+    **  mod3 bias 6          3506
+        mod3 bias 7          3516
+        mod3 bias 8          3518
+        mod3 bias 9          3520
+        mod3 bias 10         3522
+        mod3 bias 11         3522
+        mod3 bias 12         3522
+        mod3 bias 13         3522
+        mod3 bias 14         3522
+        mod3 bias 15         3522
+        mod3 bias 16         3522
+        mod3 bias 17         3522
+        mod3 bias 18         3522
+        mod3 bias 19         3522
+        mod3 bias 20         3522
+prob-106.desc
+        NN                   12296
+        mod3                 11906
+        mod3 tie             11968
+        mod3 bias 1          11906
+        mod3 bias 2          11412
+    **  mod3 bias 3          10771
+        mod3 bias 4          10838
+        mod3 bias 5          10817
+        mod3 bias 6          10823
+        mod3 bias 7          10911
+        mod3 bias 8          10835
+        mod3 bias 9          10837
+        mod3 bias 10         10861
+        mod3 bias 11         10861
+        mod3 bias 12         10877
+        mod3 bias 13         10891
+        mod3 bias 14         10941
+        mod3 bias 15         10947
+        mod3 bias 16         10947
+        mod3 bias 17         10947
+        mod3 bias 18         10947
+        mod3 bias 19         10947
+        mod3 bias 20         10947
+prob-121.desc
+        NN                   13541
+        mod3                 12411
+        mod3 tie             12046
+        mod3 bias 1          12411
+        mod3 bias 2          11784
+        mod3 bias 3          11018
+        mod3 bias 4          10672
+        mod3 bias 5          10672
+        mod3 bias 6          10676
+        mod3 bias 7          10654
+        mod3 bias 8          10686
+        mod3 bias 9          10736
+        mod3 bias 10         10732
+        mod3 bias 11         10686
+        mod3 bias 12         10696
+        mod3 bias 13         10698
+        mod3 bias 14         10660
+        mod3 bias 15         10668
+    **  mod3 bias 16         10653
+    **  mod3 bias 17         10653
+        mod3 bias 18         10663
+        mod3 bias 19         10667
+        mod3 bias 20         10667
+prob-136.desc
+        NN                   15134
+        mod3                 14687
+        mod3 tie             14381
+        mod3 bias 1          14687
+        mod3 bias 2          13666
+        mod3 bias 3          13014
+        mod3 bias 4          12797
+        mod3 bias 5          12731
+        mod3 bias 6          12533
+        mod3 bias 7          12545
+        mod3 bias 8          12519
+        mod3 bias 9          12515
+        mod3 bias 10         12515
+    **  mod3 bias 11         12507
+        mod3 bias 12         12565
+        mod3 bias 13         12599
+        mod3 bias 14         12605
+        mod3 bias 15         12641
+        mod3 bias 16         12641
+        mod3 bias 17         12641
+        mod3 bias 18         12641
+        mod3 bias 19         12641
+        mod3 bias 20         12634
+prob-151.desc
+        NN                   2342
+        mod3                 2378
+        mod3 tie             2282
+        mod3 bias 1          2378
+        mod3 bias 2          2234
+        mod3 bias 3          2089
+        mod3 bias 4          2079
+    **  mod3 bias 5          2019
+        mod3 bias 6          2033
+        mod3 bias 7          2051
+        mod3 bias 8          2051
+        mod3 bias 9          2051
+        mod3 bias 10         2049
+        mod3 bias 11         2049
+        mod3 bias 12         2049
+        mod3 bias 13         2049
+        mod3 bias 14         2049
+        mod3 bias 15         2103
+        mod3 bias 16         2103
+        mod3 bias 17         2103
+        mod3 bias 18         2103
+        mod3 bias 19         2103
+        mod3 bias 20         2103
+prob-166.desc
+        NN                   3692
+        mod3                 3611
+        mod3 tie             3526
+        mod3 bias 1          3611
+        mod3 bias 2          3325
+        mod3 bias 3          3091
+        mod3 bias 4          2995
+        mod3 bias 5          2961
+        mod3 bias 6          2935
+        mod3 bias 7          2919
+    **  mod3 bias 8          2917
+    **  mod3 bias 9          2917
+        mod3 bias 10         2923
+        mod3 bias 11         2935
+        mod3 bias 12         2948
+        mod3 bias 13         2948
+        mod3 bias 14         2966
+        mod3 bias 15         2966
+        mod3 bias 16         2966
+        mod3 bias 17         2964
+        mod3 bias 18         2964
+        mod3 bias 19         2964
+        mod3 bias 20         2964
+prob-181.desc
+        NN                   9350
+        mod3                 9053
+        mod3 tie             8752
+        mod3 bias 1          9053
+        mod3 bias 2          8708
+    **  mod3 bias 3          8004
+        mod3 bias 4          8110
+        mod3 bias 5          8082
+        mod3 bias 6          8102
+        mod3 bias 7          8068
+        mod3 bias 8          8123
+        mod3 bias 9          8090
+        mod3 bias 10         8090
+        mod3 bias 11         8124
+        mod3 bias 12         8124
+        mod3 bias 13         8136
+        mod3 bias 14         8158
+        mod3 bias 15         8158
+        mod3 bias 16         8158
+        mod3 bias 17         8158
+        mod3 bias 18         8158
+        mod3 bias 19         8158
+        mod3 bias 20         8158
+prob-196.desc
+        NN                   12587
+        mod3                 12216
+        mod3 tie             12138
+        mod3 bias 1          12216
+        mod3 bias 2          11353
+        mod3 bias 3          10727
+        mod3 bias 4          10707
+        mod3 bias 5          10527
+        mod3 bias 6          10513
+        mod3 bias 7          10539
+        mod3 bias 8          10434
+    **  mod3 bias 9          10426
+        mod3 bias 10         10438
+    **  mod3 bias 11         10426
+        mod3 bias 12         10468
+        mod3 bias 13         10468
+        mod3 bias 14         10462
+        mod3 bias 15         10488
+        mod3 bias 16         10510
+        mod3 bias 17         10510
+        mod3 bias 18         10510
+        mod3 bias 19         10510
+        mod3 bias 20         10510
+prob-211.desc
+        NN                   34677
+        mod3                 32841
+        mod3 tie             32453
+        mod3 bias 1          32841
+        mod3 bias 2          30735
+        mod3 bias 3          29288
+        mod3 bias 4          29481
+    **  mod3 bias 5          29044
+        mod3 bias 6          29128
+        mod3 bias 7          29070
+        mod3 bias 8          29148
+        mod3 bias 9          29220
+        mod3 bias 10         29280
+        mod3 bias 11         29282
+        mod3 bias 12         29332
+        mod3 bias 13         29350
+        mod3 bias 14         29367
+        mod3 bias 15         29458
+        mod3 bias 16         29352
+        mod3 bias 17         29352
+        mod3 bias 18         29352
+        mod3 bias 19         29355
+        mod3 bias 20         29505
+prob-226.desc
+        NN                   2968
+        mod3                 1273
+        mod3 tie             1279
+        mod3 bias 1          1273
+        mod3 bias 2          1289
+        mod3 bias 3          1254
+    **  mod3 bias 4          1195
+        mod3 bias 5          1225
+        mod3 bias 6          1208
+        mod3 bias 7          1210
+        mod3 bias 8          1210
+        mod3 bias 9          1210
+        mod3 bias 10         1210
+        mod3 bias 11         1210
+        mod3 bias 12         1210
+        mod3 bias 13         1210
+        mod3 bias 14         1200
+        mod3 bias 15         1200
+        mod3 bias 16         1200
+        mod3 bias 17         1200
+        mod3 bias 18         1200
+        mod3 bias 19         1200
+        mod3 bias 20         1207
+prob-241.desc
+        NN                   9520
+        mod3                 2872
+        mod3 tie             2933
+        mod3 bias 1          2872
+        mod3 bias 2          2779
+        mod3 bias 3          2784
+        mod3 bias 4          2733
+        mod3 bias 5          2649
+        mod3 bias 6          2649
+        mod3 bias 7          2663
+    **  mod3 bias 8          2635
+    **  mod3 bias 9          2635
+        mod3 bias 10         2792
+        mod3 bias 11         2692
+        mod3 bias 12         2779
+        mod3 bias 13         2805
+        mod3 bias 14         2805
+        mod3 bias 15         2805
+        mod3 bias 16         2805
+        mod3 bias 17         2805
+        mod3 bias 18         2760
+        mod3 bias 19         2760
+        mod3 bias 20         2760
+prob-256.desc
+        NN                   10867
+        mod3                 3212
+        mod3 tie             3161
+        mod3 bias 1          3212
+        mod3 bias 2          3164
+        mod3 bias 3          2925
+        mod3 bias 4          2975
+        mod3 bias 5          2959
+        mod3 bias 6          2898
+        mod3 bias 7          2927
+        mod3 bias 8          2938
+        mod3 bias 9          2983
+        mod3 bias 10         3004
+        mod3 bias 11         2930
+        mod3 bias 12         2983
+    **  mod3 bias 13         2887
+    **  mod3 bias 14         2887
+        mod3 bias 15         2889
+        mod3 bias 16         2889
+        mod3 bias 17         2889
+        mod3 bias 18         2889
+        mod3 bias 19         2889
+        mod3 bias 20         2889
+prob-271.desc
+        NN                   26855
+        mod3                 6081
+        mod3 tie             5856
+        mod3 bias 1          6081
+        mod3 bias 2          5859
+        mod3 bias 3          5536
+        mod3 bias 4          5517
+        mod3 bias 5          5560
+    **  mod3 bias 6          5353
+        mod3 bias 7          5468
+        mod3 bias 8          5495
+        mod3 bias 9          5500
+        mod3 bias 10         5456
+        mod3 bias 11         5468
+        mod3 bias 12         5605
+        mod3 bias 13         5555
+        mod3 bias 14         5680
+        mod3 bias 15         5648
+        mod3 bias 16         5607
+        mod3 bias 17         5559
+        mod3 bias 18         5615
+        mod3 bias 19         5630
+        mod3 bias 20         5630
+prob-286.desc
+        NN                   41304
+        mod3                 8855
+        mod3 tie             8493
+        mod3 bias 1          8855
+        mod3 bias 2          7992
+        mod3 bias 3          7804
+        mod3 bias 4          7777
+        mod3 bias 5          7781
+        mod3 bias 6          7756
+        mod3 bias 7          7745
+        mod3 bias 8          7810
+        mod3 bias 9          7700
+        mod3 bias 10         7701
+        mod3 bias 11         7710
+        mod3 bias 12         7793
+        mod3 bias 13         7870
+        mod3 bias 14         7813
+        mod3 bias 15         7732
+        mod3 bias 16         7649
+        mod3 bias 17         7666
+        mod3 bias 18         7639
+        mod3 bias 19         7646
+    **  mod3 bias 20         7619
