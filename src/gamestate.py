@@ -43,6 +43,15 @@ dxdy2str = {
             (-1, 0) : 'A'
         }
 
+class Teleporter:
+    def __init__(self, gs, x, y, time):
+        self.gs = gs
+        self.x = x
+        self.y = y
+        self.time = time
+        self.pf = Pathfinder(gs)
+        self.pf.compute_distance(x, y)
+
 class Worker:
     def __init__(self, gs, position, time, parent):
         self.gs = gs
@@ -128,9 +137,18 @@ class Worker:
         self.do('L')
 
     def place_teleport(self):
-        assert False
         self.use_booster(R)
+        tele = Teleporter(self.gs, self.x, self.y)
+        self.gs.teleporters.append(tele)
         self.do('R')
+        return tele
+
+    def teleport(self, teleporter):
+        assert self.time > teleporter.time
+        self.x = teleporter.x
+        self.y = teleporter.y
+        self.paint()
+        self.do('T({},{})'.format(teleporter.x, teleporter.y))
 
     def clone(self):
         self.use_booster(C)
@@ -249,6 +267,8 @@ class State:
             if bt != X:
                 self.has_boosters[pos[0], pos[1]] = True
 
+        self.teleporters = []
+
         self.started = True
 
         return Worker(self, self.task.start, 0, None)
@@ -277,6 +297,9 @@ class State:
 
     def amount_unpainted(self):
         return np.sum(self.unpainted)
+
+    def all_teleporters(self):
+        return list(self.teleporters)
 
     def add_worker(self, w):
         self.workers.append(w)
