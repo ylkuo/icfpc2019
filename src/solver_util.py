@@ -3,10 +3,25 @@ import numpy as np
 import task
 import gamestate
 
-def make_clones(gs):
+def make_clones(gs, detour_pct=0.001):
     while len(gs.clone_on_ground) > 0:
-        goal = set(gs.clone_on_ground)
         w = gs.oldest_worker()
+        goal = set(gs.clone_on_ground)
+
+        if len(gs.boosters[task.C]) > 0:
+            sx, sy = w.nearest_in_set(set(gs.spawn_list))
+            d_spawn = len(w.compute_path(sx, sy))
+            x, y = w.pf.nearest_in_set(sx, sy, goal)
+            d_clone = len(w.pf.compute_path(sx, sy, x, y))
+            x, y = w.nearest_in_set(goal)
+            d = len(w.compute_path(x, y))
+            if (d_spawn + d_clone) - d < detour_pct*gs.amount_unpainted():
+                w.walk_path_to(sx, sy)
+                while len(gs.boosters[task.C]) > 0:
+                    if w.is_booster_available(task.C):
+                        w.clone()
+                    else:
+                        w.wait()
         x, y = w.nearest_in_set(goal)
         w.walk_path_to(x, y)
 
