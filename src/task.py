@@ -140,7 +140,7 @@ class Task:
             filename = os.path.basename(self.filename)
 
         out = 'Task {}: X ({}, {}), Y ({}, {}), {} obstacles, {} boosters'
-        return out.format(filename, self.xmin, self.xmax, self.ymin, self.ymax, len(self.obstacles), len(self.boosters))
+        return out.format(filename, self.xmin, self.xmax, self.ymin, self.ymax, len(self.obstacles), len(self.all_boosters))
 
     def to_string(self):
         if self.task_string is None:

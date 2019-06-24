@@ -237,7 +237,7 @@ class State:
         self.spawn_list = list(t.bt2pos[X])
 
         self.interior = compute_interior.interior_with_obstacles(t.map, t.obstacles, self.X, self.Y)
-        self.unpainted = np.copy(self.interior)
+        self.unpainted = None
 
         # for a booster type bt, boosters[bt] is a list of the times that available boosters of that type were collected
         self.boosters = None
@@ -245,6 +245,7 @@ class State:
 
         self.speed_on_ground = None
         self.drill_on_ground = None
+        self.tele_on_ground = None
         self.clone_on_ground = None
         self.has_boosters = None
         self.started = False
@@ -258,9 +259,11 @@ class State:
 
         self.boosters[C] = [-1] * self.task.extra_clones
 
+        self.unpainted = np.copy(self.interior)
         self.workers = []
         self.speed_on_ground = list(self.task.bt2pos[F])
         self.drill_on_ground = list(self.task.bt2pos[L])
+        self.tele_on_ground = list(self.task.bt2pos[R])
         self.clone_on_ground = list(self.task.bt2pos[C])
         self.has_boosters = np.zeros((self.X, self.Y), dtype = bool)
         for bt, pos in self.task.all_boosters:
@@ -289,7 +292,7 @@ class State:
 
     def collect_boosters(self, x, y, time):
         pos = (x, y)
-        for (bt, xs) in [(F, self.speed_on_ground), (L, self.drill_on_ground), (C, self.clone_on_ground)]:
+        for (bt, xs) in [(F, self.speed_on_ground), (L, self.drill_on_ground), (R, self.tele_on_ground), (C, self.clone_on_ground)]:
             while pos in xs:
                 xs.remove(pos)
                 self.boosters[bt].append(time)
