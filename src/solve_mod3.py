@@ -5,8 +5,11 @@ import task
 import gamestate
 import solver_util
 
-def solve_mod3(task, tie_break = False, make_clones = False, verbose = False):
+def solve_mod3(task, outward_bias = 0, tie_break = False, make_clones = False, verbose = False):
     gs = gamestate.State(task)
+
+    if outward_bias > 0:
+        tie_break = False
 
     target = np.zeros((gs.X, gs.Y, 2), dtype = int)
     for x in range(gs.X):
@@ -30,7 +33,7 @@ def solve_mod3(task, tie_break = False, make_clones = False, verbose = False):
 
     gs.start()
 
-    if tie_break:
+    if tie_break or outward_bias > 0:
         noncentrality = solver_util.compute_centrality(gs)
 
     if make_clones:
@@ -58,7 +61,7 @@ def solve_mod3(task, tie_break = False, make_clones = False, verbose = False):
         # Are we too close to other workers?
         if not w.too_close:
             for w_ in gs.workers:
-                if not (w is w_) and abs(w.x - w_.x) + abs(w.y - w_.y) < 5:
+                if not (w is w_) and abs(w.x - w_.x) + abs(w.y - w_.y) < 3:
                     w.too_close = True
                     break
 
@@ -91,6 +94,8 @@ def solve_mod3(task, tie_break = False, make_clones = False, verbose = False):
                         x = x_
                         y = y_
                         least_central = noncentrality[x_, y_]
+            elif outward_bias > 0:
+                x, y = w.pf.nearest_in_array_with_bias(w.x, w.y, goal, noncentrality, outward_bias)
             else:
                 x, y = w.nearest_in_array(goal)
             w.walk_path_to_max(x, y, 30)
@@ -99,5 +104,16 @@ if __name__ == "__main__":
     import sys
     fn = sys.argv[1]
     task = task.Task.from_file(fn)
-    gs = solve_mod3(task, tie_break = True, make_clones = True, verbose = True)
+
+    print('mod3 with outward bias 7')
+    gs = solve_mod3(task, outward_bias = 7, tie_break = False, make_clones = True, verbose = True)
+    gs.to_file('temp_mod3_out.sol')
+
+    print('mod3')
+    gs = solve_mod3(task, outward_bias = 0, tie_break = False, make_clones = True, verbose = True)
     gs.to_file('temp_mod3.sol')
+
+    print('mod3 with tie break')
+    gs = solve_mod3(task, outward_bias = 0, tie_break = True, make_clones = True, verbose = True)
+    gs.to_file('temp_mod3_tie.sol')
+

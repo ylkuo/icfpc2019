@@ -160,3 +160,10 @@ examples = '../tasks/example/'
 part1 = '../tasks/part1/'
 part2 = '../tasks/part2/'
 part3 = '../tasks/part3/'
+
+def all_tasks():
+    tasks = []
+    for f in [part1, part2, part3]:
+        tasks.extend(tasks_in_directory(f))
+    tasks.sort(key = lambda t : t.filename)
+    return tasks

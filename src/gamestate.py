@@ -428,6 +428,52 @@ class Pathfinder:
 
         return result
 
+    # Going to a square with a lower value of "noncentrality" is a step cost of
+    # cost_inward, otherwise 1.
+    def nearest_in_array_with_bias(self, x0, y0, goal, noncentrality, cost_inward = 3):
+        inf = 2 * (np.size(self.dist) + 10)
+        x0 += 1
+        y0 += 1
+        self.dist.fill(inf)
+        self.dist[x0, y0] = 0
+        self.visited.fill(False)
+
+        cur_dist = 0
+
+        active = [(x0, y0)]
+        result = []
+        while len(active) > 0:
+            next_active = []
+            for x, y in active:
+                if self.dist[x, y] > cur_dist:
+                    next_active.append((x, y))
+                    continue
+                assert self.dist[x, y] == cur_dist
+
+                if goal[x - 1, y - 1]:
+                    return (x - 1, y - 1)
+                for dx, dy in dxys:
+                    x_ = x + dx
+                    y_ = y + dy
+                    if self.interior[x_, y_]:
+                        if noncentrality[x_ - 1, y_ - 1] < noncentrality[x - 1, y - 1]:
+                            dist_ = cur_dist + cost_inward
+                        else:
+                            dist_ = cur_dist + 1
+
+                        if self.dist[x_, y_] == inf:
+                            next_active.append((x_, y_))
+
+                        if self.dist[x_, y_] > dist_:
+                            self.dist[x_, y_] = dist_
+                            self.dx[x_, y_] = -dx
+                            self.dy[x_, y_] = -dy
+
+            active = next_active
+            cur_dist += 1
+
+        return result
+
     # Same as nearest_in_array, but the goal points are given as a set or list
     def nearest_in_set(self, x0, y0, goal):
         x0 += 1
