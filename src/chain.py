@@ -80,7 +80,7 @@ def work_on_current_block(task_solver = solvers.nn_solver, puzzle_solver = puzzl
 
     print("  solving...")
     task_solution = task_solver(t)
-    print("  ...done with task")
+    print("  ...done with task (time {})".format(task_solution.time()))
     puzzle_solution = puzzle_solver(p)
     print("  ...done with puzzle")
 

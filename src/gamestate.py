@@ -401,6 +401,33 @@ class Pathfinder:
                         self.dy[x_, y_] = -dy
             active = next_active
 
+    def all_nearest_in_array(self, x0, y0, goal):
+        x0 += 1
+        y0 += 1
+        self.dist[x0, y0] = 0
+        self.visited.fill(False)
+        self.visited[x0, y0] = True
+
+        active = [(x0, y0)]
+        result = []
+        while len(active) > 0 and len(result) == 0:
+            next_active = []
+            for x, y in active:
+                if goal[x - 1, y - 1]:
+                    result.append((x - 1, y - 1))
+                for dx, dy in dxys:
+                    x_ = x + dx
+                    y_ = y + dy
+                    if (not self.visited[x_, y_]) and self.interior[x_, y_]:
+                        next_active.append((x_, y_))
+                        self.visited[x_, y_] = True
+                        self.dist[x_, y_] = self.dist[x, y] + 1
+                        self.dx[x_, y_] = -dx
+                        self.dy[x_, y_] = -dy
+            active = next_active
+
+        return result
+
     # Same as nearest_in_array, but the goal points are given as a set or list
     def nearest_in_set(self, x0, y0, goal):
         x0 += 1

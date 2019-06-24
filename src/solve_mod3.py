@@ -5,7 +5,7 @@ import task
 import gamestate
 import solver_util
 
-def solve_mod3(task, make_clones = False, verbose = False):
+def solve_mod3(task, tie_break = False, make_clones = False, verbose = False):
     gs = gamestate.State(task)
 
     target = np.zeros((gs.X, gs.Y, 2), dtype = int)
@@ -29,6 +29,9 @@ def solve_mod3(task, make_clones = False, verbose = False):
     count = 0
 
     gs.start()
+
+    if tie_break:
+        noncentrality = solver_util.compute_centrality(gs)
 
     if make_clones:
         solver_util.make_clones(gs)
@@ -55,7 +58,7 @@ def solve_mod3(task, make_clones = False, verbose = False):
         # Are we too close to other workers?
         if not w.too_close:
             for w_ in gs.workers:
-                if not (w is w_) and abs(w.x - w_.x) + abs(w.y - w_.y) < 10:
+                if not (w is w_) and abs(w.x - w_.x) + abs(w.y - w_.y) < 5:
                     w.too_close = True
                     break
 
@@ -78,12 +81,23 @@ def solve_mod3(task, make_clones = False, verbose = False):
             t = target[gs.unpainted]
             goal[t[:, 0], t[:, 1]] = True
 
-            x, y = w.nearest_in_array(goal)
+            if tie_break:
+                xs = w.pf.all_nearest_in_array(w.x, w.y, goal)
+                assert len(xs) > 0
+                x, y = xs[0]
+                least_central = noncentrality[x, y]
+                for x_, y_ in xs[1:]:
+                    if noncentrality[x_, y_] > least_central:
+                        x = x_
+                        y = y_
+                        least_central = noncentrality[x_, y_]
+            else:
+                x, y = w.nearest_in_array(goal)
             w.walk_path_to_max(x, y, 30)
 
 if __name__ == "__main__":
     import sys
     fn = sys.argv[1]
     task = task.Task.from_file(fn)
-    gs = solve_mod3(task, make_clones = True, verbose = True)
+    gs = solve_mod3(task, tie_break = True, make_clones = True, verbose = True)
     gs.to_file('temp_mod3.sol')
