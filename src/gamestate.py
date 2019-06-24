@@ -85,7 +85,7 @@ class Worker:
                     'B' : None,
                     'F' : self.speed,
                     'L' : self.drill,
-                    'R' : None,
+                    'R' : self.place_teleport,
                     'T' : None,
                     'C' : self.clone,
                     'W' : self.move_up,
@@ -99,7 +99,11 @@ class Worker:
 
     # Given a string, call the appropriate function to execute that command
     def act(self, cmd):
-        self.cmd2fun[cmd]()
+        if cmd[0] == 'T':
+            x, y = task.parse_point(cmd[1:])
+            self.teleport_xy(x, y)
+        else:
+            self.cmd2fun[cmd]()
 
     def do(self, cmd):
         self.cmds.append(cmd)
@@ -138,7 +142,7 @@ class Worker:
 
     def place_teleport(self):
         self.use_booster(R)
-        tele = Teleporter(self.gs, self.x, self.y)
+        tele = Teleporter(self.gs, self.x, self.y, self.time)
         self.gs.teleporters.append(tele)
         self.do('R')
         return tele
@@ -149,6 +153,12 @@ class Worker:
         self.y = teleporter.y
         self.paint()
         self.do('T({},{})'.format(teleporter.x, teleporter.y))
+
+    def teleport_xy(self, x, y):
+        self.x = x
+        self.y = y
+        self.paint()
+        self.do('T({},{})'.format(x, y))
 
     def clone(self):
         self.use_booster(C)

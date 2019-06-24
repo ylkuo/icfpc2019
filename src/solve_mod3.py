@@ -80,14 +80,14 @@ def solve_mod3(task, outward_bias = 0, tie_break = False, make_clones = False, v
             best_dist = dist[x, y]
             best_tele = None
             for teleporter in gs.teleporters:
-                if teleporter.time < w.time and teleporter.pf.dist[x, y] + 1 < best_dist:
-                    best_dist = teleporter.pf.dist[x, y] + 1
+                if teleporter.time < w.time and teleporter.pf.dist[x + 1, y + 1] + 1 < best_dist:
+                    best_dist = teleporter.pf.dist[x + 1, y + 1] + 1
                     best_tele = teleporter
 
             if best_tele is None:
                 w.walk_path_to(x, y)
             else:
-                w.teleport(teleporter)
+                w.teleport(best_tele)
                 w.nearest_in_set(set((x, y)))
                 w.walk_path_to(x, y)
 
