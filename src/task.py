@@ -91,6 +91,8 @@ class Task:
         self.obstacles = obstacles
         self.all_boosters = all_boosters
 
+        self.extra_clones = 0
+
         self.bt2pos = {
                 }
         for bt in bts:
@@ -127,6 +129,9 @@ class Task:
             self = Task.from_string(f.read())
             self.filename = filename
             return self
+
+    def set_extra_clones(self, num_clones):
+        self.extra_clones = num_clones
 
     def summary(self):
         if self.filename is None:

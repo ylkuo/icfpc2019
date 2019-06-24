@@ -238,6 +238,8 @@ class State:
         for bt in task.bts:
             self.boosters[bt] = []
 
+        self.boosters[C] = [-1] * self.task.extra_clones
+
         self.workers = []
         self.speed_on_ground = list(self.task.bt2pos[F])
         self.drill_on_ground = list(self.task.bt2pos[L])
